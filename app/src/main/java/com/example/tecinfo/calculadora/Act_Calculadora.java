@@ -124,7 +124,7 @@ public class Act_Calculadora extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 memoria = (String) txt_conta.getText();
-                txt_conta.setText(memoria + ".");
+                txt_conta.setText(memoria + "9");
             }
         });
 
@@ -176,13 +176,48 @@ public class Act_Calculadora extends AppCompatActivity {
             }
         });
 
+        btn_ponto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                operacao = "*";
+                valor1 = Double.parseDouble(txt_conta.getText().toString());
+                txt_resultado.setText(txt_conta.getText().toString() + ".");
+                txt_conta.setText("");
+            }
+        });
+
         btn_igual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(txt_conta.getText().equals("")){
                     Toast.makeText(getApplicationContext(), "Digite Um Numero", Toast.LENGTH_LONG).show();
-                }
+                }else{
+                    valor2 = Double.parseDouble(txt_conta.getText().toString());
+                    txt_conta.setText("");
+                    txt_resultado.setText(calcular(valor1,valor2, operacao));
             }
-        });
+        }});
+    }
+
+    public String calcular(Double valor1 , Double valor2, String operacao){
+        Double resultado =  0.0 ;
+
+        if(operacao.equals("+")){
+            resultado =  valor1 + valor2;
+        }else if(operacao.equals("-")){
+            resultado = valor1 - valor2;
+
+        }else if(operacao.equals("*")){
+            resultado = valor1 * valor2;
+
+        }else if(operacao.equals("/")){
+            if(valor2 == 0){
+                Toast.makeText(getApplicationContext(),
+                        "Não é possivel dividir por 0", Toast.LENGTH_LONG).show();
+            }else{
+                resultado = valor1 / valor2;
+            }
+        }
+        return resultado.toString();
     }
 }
